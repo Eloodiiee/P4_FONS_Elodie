@@ -90,6 +90,10 @@ img {
   }
 }
 
+.validate { /*****Div du modal de la confirmation *******/
+  justify-content: center;
+  flex-direction: column;
+}
 
 
  @media screen and (max-width: 540px) {
@@ -100,6 +104,10 @@ img {
     margin-top: -15px;
   }
 } 
+
+#confirmation {  /****Masquage de la confirmation tant que l'inscription n'est pas faite ****/
+  display: none;
+}
 
 main {
   font-size: 130%;
@@ -157,7 +165,7 @@ main {
   font-size: 16px;
 }
 
-.bground,.bground2 {
+.bground {
   display: none;
   position: fixed;
   z-index: 1;
@@ -322,7 +330,8 @@ input[data-error]::after {
   transform: rotate(-45deg);
 }
 .btn-submit,
-.btn-signup {
+.btn-signup,
+.btn-close { /****Ajout du bouton fermer de la confirmation ****/
   background: #fe142f;
   display: block;
   margin: 0 auto;
@@ -478,6 +487,22 @@ footer {
   padding-right: 2vw;
   margin: 0 20px;
 }
+.confirm-modal {  /****Classe ajouté depuis le Js, permet la mise en page de la confirmation ****/
+  height: 70vh;
+}
+.confirm-modal .btn-close {
+  margin-top: 19em;
+}
+.confirm-modal .validText {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: 200;
+  margin-top: 7em;
+}
+
 @media screen and (max-width: 800px) {
   .hero-section {
     display: block;
