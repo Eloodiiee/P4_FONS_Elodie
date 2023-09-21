@@ -77,6 +77,7 @@
                   name="first"
                   minlength="2"
                 /><br>
+                <p id="firstNameErrorMsg"></p> <!--Message d'erreur du champs prénom-->
               </div>
               <div
                 class="formData">
@@ -88,6 +89,7 @@
                   name="last"
                   minlength="2"
                 /><br>
+                <p id="lastNameErrorMsg"></p> <!--Message d'erreur du champs nom-->
               </div>
               <div
                 class="formData">
@@ -98,6 +100,7 @@
                   id="email"
                   name="email"
                 /><br>
+                <p id="emailErrorMsg"></p> <!--Message d'erreur du champs email-->
               </div>
               <div
                 class="formData">
@@ -108,11 +111,13 @@
                   id="birthdate"
                   name="birthdate"
                 /><br>
+                <p id="birthDateErrorMsg"></p> <!--Message d'erreur du champs date de naissance-->
               </div>
               <div
                 class="formData">
                 <label>À combien de tournois GameOn avez-vous déjà participé ?</label><br>
                 <input type="number" class="text-control" id="quantity" name="quantity" min="0" max="99">
+                <p id="quantityErrorMsg"></p> <!--Message d'erreur du champs quantité de tournois-->
               </div>
               <p class="text-label">A quel tournoi souhaitez-vous participer cette année ?</p>
               <div
@@ -184,6 +189,7 @@
                   Portland</label
                 >
               </div>
+              <p id="villeErrorMsg"></p> <!--Message d'erreur du champs ville-->
 
               <div
                 class="formData">
@@ -198,6 +204,7 @@
                   J'ai lu et accepté les conditions d'utilisation.
                 </label>
                 <br>
+                <p id="cguErrorMsg"></p> <!--Message d'erreur du champs conditions générales d'utilisation-->
                 <input class="checkbox-input" type="checkbox" id="checkbox2" />
                 <label class="checkbox2-label" for="checkbox2">
                   <span class="checkbox-icon"></span>
