@@ -28,6 +28,8 @@ const newsLetter = document.getElementById("checkbox2"); //2e checkbox facultati
 let newsLetterChecked = newsLetter.checked;  //Variable pour savoir si la 2e checkbox est activée ou non
 const btnSendModal = document.getElementById("btnSendModal"); //Bouton de validation du formulaire
 const closeConfirm = document.getElementsByClassName('btn-close');//Bouton du modal de confirmation (du bouton rouge "fermer" )
+let difference = 0; // La difference entre l'âge qui sert de vérification avec le new Date().getTime();
+let ageOfUser = 0; // Age de l'utilisateur
 
 //Messages d'erreurs du formulaire
 
@@ -63,9 +65,17 @@ function closeModal() {
 //Fonctions de vérification des entrées du formulaire
 function firstNameCheck()   {
   const firstNameT = firstNameInput.value;
-  if (/^[A-Za-zÀ-ÖØ-öø-ÿ]+((\s)?((\'|\-|\.)?([A-Za-zÀ-ÖØ-öø-ÿ])+))*$/.test(firstNameT)) {
+  if (/^[A-Za-zÀ-ÖØ-öø-ÿ]+((\s)?(('|-|.)?([A-Za-zÀ-ÖØ-öø-ÿ])+))*$/.test(firstNameT)) {
+    if(firstNameT.length < 2){
+      firstNameErrorMess.style.color = "red";
+      firstNameErrorMess.style.fontSize ="0.6em"
+      firstNameErrorMess.textContent = (`Le champs "Prénom" doit contenir au moins 2 lettres !`);
+      return false;
+    }
+    else {
     firstNameErrorMess.textContent = ("");
     return true;
+    }
   }
   else {
     firstNameErrorMess.style.color = "red";
@@ -76,9 +86,17 @@ function firstNameCheck()   {
 };
 function lastNameCheck()   {
   const lastNameT = lastNameInput.value;
-  if (/^[A-Za-zÀ-ÖØ-öø-ÿ]+((\s)?((\'|\-|\.)?([A-Za-zÀ-ÖØ-öø-ÿ])+))*$/.test(lastNameT)) {
+  if (/^[A-Za-zÀ-ÖØ-öø-ÿ]+((\s)?(('|-|.)?([A-Za-zÀ-ÖØ-öø-ÿ])+))*$/.test(lastNameT)) {
+    if(lastNameT.length < 2){
+      lastNameErrorMess.style.color = "red";
+      lastNameErrorMess.style.fontSize ="0.6em"
+      lastNameErrorMess.textContent = (`Le champs "Nom" doit contenir au moins 2 lettres !`);
+      return false;
+    }
+    else {
     lastNameErrorMess.textContent = ("");
     return true;
+    }
   }
   else {
     lastNameErrorMess.style.color = "red";
@@ -101,10 +119,32 @@ function emailCheck()   {
   };
 };
 function birthDateCheck()   {
-  const birthDateT = birthDateInput.value;
+  const birthDateT = birthDateInput.value;  // Sert à faire la véfication dans le Regex
+  let birthDateInYearsInput = birthDateInput.valueAsDate;  // La valeur de l'âge convertis en date similaire au new Date
+  let birthDateFilled = birthDateInYearsInput !== null;  // Verification que l'entrée de la date de naissance soit complète
+  let verificationDateinYears = new Date().getTime(); // Vérification de l'année avec un âge de référence 
+  
+  
   if ((/^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/.test(birthDateT))){
     birthDateErrorMess.textContent = ("");
-    return true
+  }
+  if(birthDateFilled){ // Si l'Input est correctement rempli, il va calculer la différence entre l'âge de différence et la valeur de l'Input
+    difference = verificationDateinYears - birthDateInYearsInput.getTime(); 
+    ageOfUser = difference / (1000 * 60 * 60 * 24 * 365.25); //Conversion de la différence en âge grâce à la Formule qui permet de déterminer le temps dans une année 
+                                                            //(365 jours et 6 heures) en millisecondes
+    ageOfUser = Math.round(ageOfUser);//Permet d'arrondir l'âge à une valeur entière
+      
+      if(ageOfUser >= 18){
+        birthDateErrorMess.textContent = ("");
+        return true
+      }
+      else if (ageOfUser < 18){
+        birthDateErrorMess.style.color = "red";
+        birthDateErrorMess.style.fontSize = "0.6em";
+        birthDateErrorMess.textContent = (`Vous devez avoir plus de 18 ans pour vous inscrire !`);
+        return false
+      }
+    
   }
   else {
     birthDateErrorMess.style.color = "red";
@@ -112,6 +152,9 @@ function birthDateCheck()   {
     birthDateErrorMess.textContent = (`La date de naissance n'est pas valide !`);
     return false
   }
+  
+  
+  
 }
 function quantityTournamentCheck() {
   const quantityT = tournamentQuantityInput.value;
@@ -150,7 +193,7 @@ tournamentQuantityInput.addEventListener ("input", (e) => {
 //A l'appuie du bouton "c'est parti", actionne la fonction validate
 btnSendModal.addEventListener("submit", (e) => {
     e.preventDefault();
-});
+}); // La fonction validate se trouve déjà sur le html. Donc pas besoin de l'appeler une deuxième fois ici.
   
 
 //Fonction de validation
@@ -187,7 +230,7 @@ function validate(){
   else {
     villeErrorMsg.textContent = ("");
   }
-  if(cguCheck.checked){ //Si les conditions d'utilisations ne sont pas acceptées, alors ça affiche un message d'erreur// Le .checked est une propriété qui permet de verifier si une checkbox est coché 
+  if(cguCheck.checked){ //Si les conditions d'utilisations ne sont pas acceptées, alors ça affiche un message d'erreur
     villeErrorMsg.textContent = ("");
   }
   else {
@@ -201,9 +244,7 @@ function validate(){
   }
   else{
     newsLetterChecked = false
-    
   }
-
 
 //Enregistrement des donnés du formulaire
 
@@ -220,7 +261,7 @@ function validate(){
     }
 
   }
-  console.log(submit) //Données récupérées
+  console.log(submit); //Données récupérées
   
   
   confirmation.classList.add('confirm-modal');// Ajout de la classe "confirm-modal" pour la mise en page en CSS
