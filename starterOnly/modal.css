@@ -14,7 +14,6 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
- /* background-image: url("background.png");*/
   font-family: var(--font-default);
   font-size: 18px;
   max-width: 1300px;
@@ -28,6 +27,11 @@ p {
 
 img {
   padding-right: 1rem;
+}
+
+.cover {
+  overflow: hidden;
+  object-fit: cover;
 }
 
 .topnav {
@@ -68,42 +72,11 @@ img {
   display: none;
 }
 
-@media screen and (max-width: 768px) {
-  .topnav a {display: none;}
-  .topnav a.icon {
-    float: right;
-    display: block;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .topnav.responsive {position: relative;}
-  .topnav.responsive .icon {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-  .topnav.responsive a {
-    float: none;
-    display: block;
-    text-align: left;
-  }
-}
 
 .validate { /*****Div du modal de la confirmation *******/
   justify-content: center;
   flex-direction: column;
 }
-
-
- @media screen and (max-width: 540px) {
-  .topnav a {display: none;}
-  .topnav a.icon {
-    float: right;
-    display: block;
-    margin-top: -15px;
-  }
-} 
 
 #confirmation {  /****Masquage de la confirmation tant que l'inscription n'est pas faite ****/
   display: none;
@@ -503,7 +476,59 @@ footer {
   margin-top: 7em;
 }
 
-@media screen and (max-width: 800px) {
+
+@media screen and (min-width: 1280px) {
+
+  main {
+    padding-left: 0vw;
+    padding-right: 2vw;
+    margin: 1px 88px 0px;
+  }
+  footer {
+    margin: 6px 26px;
+  }
+  .hero-headline {
+    font-size: 3.5em;
+  }
+ .hero-section {
+    min-height: 40vh;
+    min-width: 50vw;
+  }
+  .btn-close {
+    margin-bottom: 2em;
+  }
+  .content {
+    margin: 5% auto;
+  }
+  .confirm-window .validText {
+    margin-top: 7em;
+  }
+}
+
+
+@media screen and (min-width: 800px) {
+  .logo{
+    margin-top: 0.5em;
+    width: 11em;
+  }
+  .topnav a {
+    font-size: 18px;
+  }
+  
+  .hero-headline {
+    font-size: 3em;
+  }
+  .hero-section {
+    min-height: 40vh;
+    min-width: 60vw;
+  }
+  
+  .confirm-window .validText {
+    margin-top: 6em;
+  }
+}
+
+@media screen and (max-width: 799px) {
   .hero-section {
     display: block;
     box-shadow: unset;
@@ -541,6 +566,118 @@ footer {
     text-align: center;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .topnav a {display: none;}
+  .topnav a.icon {
+    float: right;
+    display: block;
+  }
+  .main-navbar {
+    margin-top: -0.4em;
+  }
+  .logo{
+    width: 11em;
+  }
+  .hero-content {
+    min-width: 95%;
+    padding-left: 40px;
+    padding-right: 40px ;
+  }
+  .hero-img {
+    display: flex;
+    justify-content: center;
+    width: 60%;
+    margin: auto;
+  }
+  .hero-section {
+    margin-top: 0em;
+  }
+  .hero-text {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-top: 10px;
+  }
+  .hero-headline {
+    font-size: 2.5em;
+    font-weight: 700;
+  }
+  .confirm-window .validText {
+    margin-top: 6.5em;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .topnav.responsive {position: relative;}
+  .topnav.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+}
+@media screen and (max-width: 540px) {
+  .topnav a {display: none;}
+  .topnav a.icon {
+    float: right;
+    display: block;
+    margin-top: -15px;
+  }
+  .main-navbar {
+    margin-top: 0.9em;
+  }
+  .hero-content {
+    min-width: 95%;
+  }
+  .topnav a {display: none;}
+  .topnav a.icon {
+    float: right;
+    display: block;
+    margin-top: -15px;
+  }
+
+  .header-logo {
+    margin-top: 0.5em;
+  }
+  .logo{
+    width: 10em;
+  }
+  .hero-section {
+    min-height: 0vh;
+  }
+  .hero-content {
+    min-width: 95%;
+    padding: 0px;
+  }
+  .hero-img {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: auto;
+  }
+  .hero-headline {
+    font-size: 1.6em;
+    font-weight: 700;
+  }
+  .hero-text {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 10px;
+  }
+  .hero-headline {
+    font-size: 1.6em;
+    font-weight: 700;
+  }
+} 
+
+
+
+
+
 
 @keyframes modalopen {
   from {
