@@ -30,6 +30,7 @@ const btnSendModal = document.getElementById("btnSendModal"); //Bouton de valida
 const closeConfirm = document.getElementsByClassName('btn-close');//Bouton du modal de confirmation (du bouton rouge "fermer" )
 let difference = 0; // La difference entre l'âge qui sert de vérification avec le new Date().getTime();
 let ageOfUser = 0; // Age de l'utilisateur
+let citychecked = false; // Variable qui permet de vérifier si une ville a été selectionnée ou non
 
 //Messages d'erreurs du formulaire
 
@@ -65,15 +66,17 @@ function closeModal() {
 //Fonctions de vérification des entrées du formulaire
 function firstNameCheck()   {
   const firstNameT = firstNameInput.value;
-  if (/^[A-Za-zÀ-ÖØ-öø-ÿ]+((\s)?(('|-|.)?([A-Za-zÀ-ÖØ-öø-ÿ])+))*$/.test(firstNameT)) {
+  if (/^[A-Za-zÀ-ÖØ-öø-ÿ]+((\s)?((\'|\-|\.)?([A-Za-zÀ-ÖØ-öø-ÿ])+))*$/.test(firstNameT)) {
     if(firstNameT.length < 2){
       firstNameErrorMess.style.color = "red";
       firstNameErrorMess.style.fontSize ="0.6em"
-      firstNameErrorMess.textContent = (`Le champs "Prénom" doit contenir au moins 2 lettres !`);
+      firstNameErrorMess.textContent = (`Le champs "Prénom" renseigné n'est pas valide !`);
+      firstNameInput.style.border = "thick solid red"; // Ajoute une bordure rouge si faux, si vrai c'est vert
       return false;
     }
     else {
     firstNameErrorMess.textContent = ("");
+    firstNameInput.style.border = "thick solid green";
     return true;
     }
   }
@@ -81,20 +84,23 @@ function firstNameCheck()   {
     firstNameErrorMess.style.color = "red";
     firstNameErrorMess.style.fontSize ="0.6em"
     firstNameErrorMess.textContent = (`Le champs "Prénom" renseigné n'est pas valide !`);
+    firstNameInput.style.border = "thick solid red";
     return false;
   };
 };
 function lastNameCheck()   {
   const lastNameT = lastNameInput.value;
-  if (/^[A-Za-zÀ-ÖØ-öø-ÿ]+((\s)?(('|-|.)?([A-Za-zÀ-ÖØ-öø-ÿ])+))*$/.test(lastNameT)) {
+  if (/^[A-Za-zÀ-ÖØ-öø-ÿ]+((\s)?((\'|\-|\.)?([A-Za-zÀ-ÖØ-öø-ÿ])+))*$/.test(lastNameT)) {
     if(lastNameT.length < 2){
       lastNameErrorMess.style.color = "red";
       lastNameErrorMess.style.fontSize ="0.6em"
-      lastNameErrorMess.textContent = (`Le champs "Nom" doit contenir au moins 2 lettres !`);
+      lastNameErrorMess.textContent = (`Le champs "Nom" renseigné n'est pas valide !`);
+      lastNameInput.style.border = "thick solid red";
       return false;
     }
     else {
     lastNameErrorMess.textContent = ("");
+    lastNameInput.style.border = "thick solid green";
     return true;
     }
   }
@@ -102,6 +108,7 @@ function lastNameCheck()   {
     lastNameErrorMess.style.color = "red";
     lastNameErrorMess.style.fontSize ="0.6em"
     lastNameErrorMess.textContent = (`Le champs "Nom" renseigné n'est pas valide !`);
+    lastNameInput.style.border = "thick solid red";
     return false;
   };
 };
@@ -109,47 +116,51 @@ function emailCheck()   {
   const emailT = emailInput.value;
   if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailT)) { 
     emailErrorMess.textContent = ("");
+    emailInput.style.border = "thick solid green";
     return true;
   }
   else {
     emailErrorMess.style.color = "red";
     emailErrorMess.style.fontSize = "0.6em";
     emailErrorMess.textContent = (`Le champs "Email" renseigné n'est pas valide !`);
+    emailInput.style.border = "thick solid red";
     return false;
   };
 };
 function birthDateCheck()   {
-  const birthDateT = birthDateInput.value;  // Sert à faire la véfication dans le Regex
-  let birthDateInYearsInput = birthDateInput.valueAsDate;  // La valeur de l'âge convertis en date similaire au new Date
-  let birthDateFilled = birthDateInYearsInput !== null;  // Verification que l'entrée de la date de naissance soit complète
-  let verificationDateinYears = new Date().getTime(); // Vérification de l'année avec un âge de référence 
+  const birthDateT = birthDateInput.value; // Sert à faire la véfication dans le Regex
+  let birthDateInYearsInput = birthDateInput.valueAsDate;// La valeur de l'âge convertis en date similaire au new Date
+  let birthDateFilled = birthDateInYearsInput !== null;// Verification que l'entrée de la date de naissance soit complète
+  let verificationDateinYears = new Date().getTime();// Vérification de l'année avec un âge de référence
   
   
   if ((/^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/.test(birthDateT))){
     birthDateErrorMess.textContent = ("");
   }
   if(birthDateFilled){ // Si l'Input est correctement rempli, il va calculer la différence entre l'âge de différence et la valeur de l'Input
-    difference = verificationDateinYears - birthDateInYearsInput.getTime(); 
-    ageOfUser = difference / (1000 * 60 * 60 * 24 * 365.25); //Conversion de la différence en âge grâce à la Formule qui permet de déterminer le temps dans une année 
+    difference = verificationDateinYears - birthDateInYearsInput.getTime();
+    ageOfUser = difference / (1000 * 60 * 60 * 24 * 365.25);//Conversion de la différence en âge grâce à la Formule qui permet de déterminer le temps dans une année 
                                                             //(365 jours et 6 heures) en millisecondes
     ageOfUser = Math.round(ageOfUser);//Permet d'arrondir l'âge à une valeur entière
       
       if(ageOfUser >= 18){
         birthDateErrorMess.textContent = ("");
+        birthDateInput.style.border = "thick solid green";
         return true
       }
       else if (ageOfUser < 18){
         birthDateErrorMess.style.color = "red";
         birthDateErrorMess.style.fontSize = "0.6em";
-        birthDateErrorMess.textContent = (`Vous devez avoir plus de 18 ans pour vous inscrire !`);
+        birthDateErrorMess.textContent = (`Vous devez avoir plus de 18 ans pour vous inscrire.`);
+        birthDateInput.style.border = "thick solid red";
         return false
       }
-    
   }
   else {
     birthDateErrorMess.style.color = "red";
     birthDateErrorMess.style.fontSize = "0.6em";
     birthDateErrorMess.textContent = (`La date de naissance n'est pas valide !`);
+    birthDateInput.style.border = "thick solid red";
     return false
   }
   
@@ -157,15 +168,52 @@ function birthDateCheck()   {
   
 }
 function quantityTournamentCheck() {
-  const quantityT = tournamentQuantityInput.value;
+  let quantityT = tournamentQuantityInput.value;
   if(/^\d+$/.test(quantityT)){
+    if(quantityT > 99){
+      quantityErrorMsg.style.color = "red";
+      quantityErrorMsg.style.fontSize = "0.6em";
+      quantityErrorMsg.textContent = ("Ce champs doit des nombres de 0 à 99 !");
+      tournamentQuantityInput.style.border = "thick solid red";
+      return false
+    }
     quantityErrorMsg.textContent = ("");
+    tournamentQuantityInput.style.border = "thick solid green";
     return true
   }
   else {
     quantityErrorMsg.style.color = "red";
     quantityErrorMsg.style.fontSize = "0.6em";
-    quantityErrorMsg.textContent = (`Ce champs n'accepte que des nombres de 0 à 99 !`);
+    quantityErrorMsg.textContent = (`Ce champs doit contenir des nombres de 0 à 99 !`);
+    tournamentQuantityInput.style.border = "thick solid red";
+    return false
+  }
+}
+function cityCheck() {
+  for (let i = 0; i < baliseVille.length; i++) { //Permet de récupérer le bouton de la ville choisie
+    if (baliseVille[i].checked) {
+        ville = baliseVille[i].value
+        villeErrorMsg.textContent = ("");
+        citychecked = true;
+        break
+    }
+    else {
+      villeErrorMsg.style.color = "red";
+      villeErrorMsg.style.fontSize = "0.6em";
+      villeErrorMsg.textContent = (`Veuillez sélectionner une ville.`); 
+      citychecked = false;
+    }
+  }
+}
+function cguChecking(){
+  if (cguCheck.checked){
+    cguErrorMsg.textContent = ("");
+    return true
+  }
+  else{
+    cguErrorMsg.style.color = "red";
+    cguErrorMsg.style.fontSize = "0.6em";
+    cguErrorMsg.textContent = (`Veuillez accepter les conditions d'utilisation.`);
     return false
   }
 }
@@ -193,81 +241,57 @@ tournamentQuantityInput.addEventListener ("input", (e) => {
 //A l'appuie du bouton "c'est parti", actionne la fonction validate
 btnSendModal.addEventListener("submit", (e) => {
     e.preventDefault();
-}); // La fonction validate se trouve déjà sur le html. Donc pas besoin de l'appeler une deuxième fois ici.
+});// La fonction validate se trouve déjà sur le html. Donc pas besoin de l'appeler une deuxième fois ici.
   
 
 //Fonction de validation
 
 function validate(){
-  if (firstNameCheck() === false){ //Si le prénom n'est pas correctement inscrit, ça empêche la validation de se faire
-    return
-  }
-  if (lastNameCheck() === false){ //Si le nom n'est pas correctement inscrit, ça empêche la validation de se faire
-    return
-  }
-  if (emailCheck() === false){  //Si l'email n'est pas correctement inscrit, ça empêche la validation de se faire
-    return
-  }
-  if (birthDateCheck() === false){  //Si la date de naissance n'est pas correctement inscrite, ça empêche la validation de se faire
-    return
-  }
-  if (quantityTournamentCheck() === false){  //Si la quantité de tournois n'est pas correctement inscrit, ça empêche la validation de se faire
-    quantityErrorMsg.textContent = (`Ce champs n'est pas rempli !`);
-    return
-  }
-  for (let i = 0; i < baliseVille.length; i++) { //Permet de récupérer le bouton de la ville choisie
-    if (baliseVille[i].checked) {
-        ville = baliseVille[i].value
-        break
-    }
-  }
-  if(ville == 0){ //Si aucune ville n'est séléctionnée, alors ça affiche un message d'erreur
-    villeErrorMsg.style.color = "red";
-    villeErrorMsg.style.fontSize = "0.6em";
-    villeErrorMsg.textContent = (`Veuillez sélectionner une ville.`);
-    return
-  }
-  else {
-    villeErrorMsg.textContent = ("");
-  }
-  if(cguCheck.checked){ //Si les conditions d'utilisations ne sont pas acceptées, alors ça affiche un message d'erreur
-    villeErrorMsg.textContent = ("");
-  }
-  else {
-    cguErrorMsg.style.color = "red";
-    cguErrorMsg.style.fontSize = "0.6em";
-    cguErrorMsg.textContent = (`Veuillez accepter les conditions d'utilisation.`);
-    return
-  }
+  // Execute toutes les fonctions à l'appui du bouton "c'est parti"
+  firstNameCheck(); 
+  lastNameCheck();
+  emailCheck();
+  birthDateCheck();
+  quantityTournamentCheck();
+  cityCheck();
+  cguChecking();
+
   if(newsLetter.checked){  // Permet de déterminer si la newsLetter est cochée ou pas.
     newsLetterChecked = true
   }
   else{
     newsLetterChecked = false
   }
-
-//Enregistrement des donnés du formulaire
-
-  const submit = {
-    contact: {
+  //Si tout les champs sont correctemment remplis, le formulaire s'enregistre et passe au modal suivant
+  if (firstNameCheck() == true && lastNameCheck() == true && emailCheck() == true && birthDateCheck() == true && quantityTournamentCheck() == true && citychecked == true && cguChecking() == true){ 
     
-      firstName: firstNameInput.value,
-      lastName: lastNameInput.value,
-      email: emailInput.value,
-      birthDate: birthDateInput.value,
-      quantity: tournamentQuantityInput.value,
-      city: ville,
-      newsLetterBtn: newsLetterChecked,
+    
+    //Enregistrement des donnés du formulaire
+    
+    const submit = {
+      contact: {
+      
+        firstName: firstNameInput.value,
+        lastName: lastNameInput.value,
+        email: emailInput.value,
+        birthDate: birthDateInput.value,
+        quantity: tournamentQuantityInput.value,
+        city: ville,
+        newsLetterBtn: newsLetterChecked,
+      }
+  
     }
-
+    console.log(submit); //Données récupérées
+    
+    
+    confirmation.classList.add('confirm-modal');// Ajout de la classe "confirm-modal" pour la mise en page en CSS
+    btnSendModal.style.display = "none";// Masquage du formulaire
+    confirmation.style.display ="flex";// Affichage de la confirmation 
+  } 
+  //Sinon la validation s'interrompt
+  else {
+    return
   }
-  console.log(submit); //Données récupérées
-  
-  
-  confirmation.classList.add('confirm-modal');// Ajout de la classe "confirm-modal" pour la mise en page en CSS
-  btnSendModal.style.display = "none";// Masquage du formulaire
-  confirmation.style.display ="flex";// Affichage de la confirmation 
 }
-
 closeConfirm[0].addEventListener("click", closeModal);// Fonction de fermeture de la fenêtre (du bouton rouge "fermer")
     
