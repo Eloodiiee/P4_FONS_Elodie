@@ -60,6 +60,7 @@ function launchModal() {
 // close modal form
 function closeModal() {
   modalbg.style.display = "none";
+  document.getElementById('btnSendModal').reset(); // Permet de réinitialiser le formulaire
   location.reload();//recharge la page quand le modal est fermé
 }
 
@@ -267,7 +268,7 @@ function validate(){
     
     
     //Enregistrement des donnés du formulaire
-    
+
     const submit = {
       contact: {
       
@@ -281,12 +282,13 @@ function validate(){
       }
   
     }
-    console.log(submit); //Données récupérées
+    console.log(JSON.parse(JSON.stringify(submit))); //Données récupérées
     
     
     confirmation.classList.add('confirm-modal');// Ajout de la classe "confirm-modal" pour la mise en page en CSS
     btnSendModal.style.display = "none";// Masquage du formulaire
     confirmation.style.display ="flex";// Affichage de la confirmation 
+    document.getElementById('btnSendModal').reset(); // Permet de réinitialiser le formulaire
   } 
   //Sinon la validation s'interrompt
   else {
