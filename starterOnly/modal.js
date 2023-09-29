@@ -171,10 +171,10 @@ function birthDateCheck()   {
 function quantityTournamentCheck() {
   let quantityT = tournamentQuantityInput.value;
   if(/^\d+$/.test(quantityT)){
-    if(quantityT > 99){
+    if(quantityT > 99 || quantityT < 0 ){
       quantityErrorMsg.style.color = "red";
       quantityErrorMsg.style.fontSize = "0.6em";
-      quantityErrorMsg.textContent = ("Ce champs doit des nombres de 0 à 99 !");
+      quantityErrorMsg.textContent = ("Ce champs doit contenir des nombres de 0 à 99 !");
       tournamentQuantityInput.style.border = "thick solid red";
       return false
     }
