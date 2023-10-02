@@ -31,6 +31,8 @@ const closeConfirm = document.getElementsByClassName('btn-close');//Bouton du mo
 let difference = 0; // La difference entre l'âge qui sert de vérification avec le new Date().getTime();
 let ageOfUser = 0; // Age de l'utilisateur
 let citychecked = false; // Variable qui permet de vérifier si une ville a été selectionnée ou non
+const regexNames = /^[A-Za-zÀ-ÖØ-öø-ÿ]+((\s)?((\'|\-|\.)?([A-Za-zÀ-ÖØ-öø-ÿ])+))*$/
+const regexQuantity = /^\d+$/
 
 //Messages d'erreurs du formulaire
 
@@ -67,48 +69,32 @@ function closeModal() {
 //Fonctions de vérification des entrées du formulaire
 function firstNameCheck()   {
   const firstNameT = firstNameInput.value;
-  if (/^[A-Za-zÀ-ÖØ-öø-ÿ]+((\s)?((\'|\-|\.)?([A-Za-zÀ-ÖØ-öø-ÿ])+))*$/.test(firstNameT)) {
-    if(firstNameT.length < 2){
-      firstNameErrorMess.style.color = "red";
-      firstNameErrorMess.style.fontSize ="0.6em"
-      firstNameErrorMess.textContent = (`Le champs "Prénom" renseigné n'est pas valide !`);
-      firstNameInput.style.border = "thick solid red"; // Ajoute une bordure rouge si faux, si vrai c'est vert
-      return false;
-    }
-    else {
+  let fnameChecked = regexNames.test(firstNameT);
+  if (fnameChecked == true && firstNameT.length >= 2) {
     firstNameErrorMess.textContent = ("");
-    firstNameInput.style.border = "thick solid green";
+    firstNameInput.style.border = "thick solid green";  // Ajoute une bordure rouge si faux, si vrai c'est vert
     return true;
-    }
   }
   else {
     firstNameErrorMess.style.color = "red";
     firstNameErrorMess.style.fontSize ="0.6em"
-    firstNameErrorMess.textContent = (`Le champs "Prénom" renseigné n'est pas valide !`);
+    firstNameErrorMess.textContent = (`Le champ "Prénom" renseigné n'est pas valide !`);
     firstNameInput.style.border = "thick solid red";
     return false;
   };
 };
 function lastNameCheck()   {
   const lastNameT = lastNameInput.value;
-  if (/^[A-Za-zÀ-ÖØ-öø-ÿ]+((\s)?((\'|\-|\.)?([A-Za-zÀ-ÖØ-öø-ÿ])+))*$/.test(lastNameT)) {
-    if(lastNameT.length < 2){
-      lastNameErrorMess.style.color = "red";
-      lastNameErrorMess.style.fontSize ="0.6em"
-      lastNameErrorMess.textContent = (`Le champs "Nom" renseigné n'est pas valide !`);
-      lastNameInput.style.border = "thick solid red";
-      return false;
-    }
-    else {
+  let lnameChecked = regexNames.test(lastNameT);
+  if (lnameChecked == true && lastNameT.length >= 2) {
     lastNameErrorMess.textContent = ("");
     lastNameInput.style.border = "thick solid green";
     return true;
-    }
   }
   else {
     lastNameErrorMess.style.color = "red";
     lastNameErrorMess.style.fontSize ="0.6em"
-    lastNameErrorMess.textContent = (`Le champs "Nom" renseigné n'est pas valide !`);
+    lastNameErrorMess.textContent = (`Le champ "Nom" renseigné n'est pas valide !`);
     lastNameInput.style.border = "thick solid red";
     return false;
   };
@@ -123,7 +109,7 @@ function emailCheck()   {
   else {
     emailErrorMess.style.color = "red";
     emailErrorMess.style.fontSize = "0.6em";
-    emailErrorMess.textContent = (`Le champs "Email" renseigné n'est pas valide !`);
+    emailErrorMess.textContent = (`Le champ "Email" renseigné n'est pas valide !`);
     emailInput.style.border = "thick solid red";
     return false;
   };
@@ -163,21 +149,13 @@ function birthDateCheck()   {
     birthDateErrorMess.textContent = (`La date de naissance n'est pas valide !`);
     birthDateInput.style.border = "thick solid red";
     return false
-  }
-  
-  
+  } 
   
 }
 function quantityTournamentCheck() {
   let quantityT = tournamentQuantityInput.value;
-  if(/^\d+$/.test(quantityT)){
-    if(quantityT > 99 || quantityT < 0 ){
-      quantityErrorMsg.style.color = "red";
-      quantityErrorMsg.style.fontSize = "0.6em";
-      quantityErrorMsg.textContent = ("Ce champs doit contenir des nombres de 0 à 99 !");
-      tournamentQuantityInput.style.border = "thick solid red";
-      return false
-    }
+  let quantityChecked = regexQuantity.test(quantityT);
+  if(quantityChecked ==  true && quantityT < 100 && quantityT >= 0){
     quantityErrorMsg.textContent = ("");
     tournamentQuantityInput.style.border = "thick solid green";
     return true
@@ -185,7 +163,7 @@ function quantityTournamentCheck() {
   else {
     quantityErrorMsg.style.color = "red";
     quantityErrorMsg.style.fontSize = "0.6em";
-    quantityErrorMsg.textContent = (`Ce champs doit contenir des nombres de 0 à 99 !`);
+    quantityErrorMsg.textContent = (`Ce champ doit contenir des nombres de 0 à 99 !`);
     tournamentQuantityInput.style.border = "thick solid red";
     return false
   }
@@ -222,23 +200,23 @@ function cguChecking(){
 firstNameInput.addEventListener("input", (e) => {
   e.preventDefault();
   firstNameCheck();
-})
+});
 lastNameInput.addEventListener("input", (e) => {
   e.preventDefault();
   lastNameCheck()
-})
+});
 emailInput.addEventListener("input", (e) => {
   e.preventDefault();
   emailCheck();
-})
+});
 birthDateInput.addEventListener("input", (e) => {
   e.preventDefault
   birthDateCheck();
-})
+});
 tournamentQuantityInput.addEventListener ("input", (e) => {
   e.preventDefault();
   quantityTournamentCheck();
-})
+});
 //A l'appuie du bouton "c'est parti", actionne la fonction validate
 btnSendModal.addEventListener("submit", (e) => {
     e.preventDefault();
